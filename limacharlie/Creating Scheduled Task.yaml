@@ -1,0 +1,20 @@
+detect:
+  event: NEW_PROCESS
+  op: and
+  rules:
+    - case sensitive: false
+      file name: true
+      op: is
+      path: event/FILE_PATH
+      value: schtasks.exe
+    - case sensitive: false
+      op: contains
+      path: event/COMMAND_LINE
+      value: /create
+respond:
+  - action: report
+    metadata:
+      level: medium
+      technique: T1053.005
+    name: Scheduled Task Created
+    priority: 3

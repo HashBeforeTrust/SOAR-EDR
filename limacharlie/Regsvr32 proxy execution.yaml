@@ -1,0 +1,26 @@
+detect:
+  event: NEW_PROCESS
+  op: and
+  rules:
+    - case sensitive: false
+      file name: true
+      op: is
+      path: event/FILE_PATH
+      value: regsvr32.exe
+    - op: or
+      rules:
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: scrobj.dll
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: http
+respond:
+  - action: report
+    name: Suspicious Rundll32 Execution
+    priority: 4
+    metadata:
+      level: high
+      technique: T1218.011

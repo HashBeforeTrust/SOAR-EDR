@@ -1,0 +1,36 @@
+detect:
+  event: NEW_PROCESS
+  op: or
+  rules:
+    - case sensitive: false
+      file name: true
+      op: is
+      path: event/FILE_PATH
+      value: mimikatz.exe
+    - case sensitive: false
+      file name: true
+      op: is
+      path: event/FILE_PATH
+      value: lazagne.exe
+    - case sensitive: false
+      file name: true
+      op: is
+      path: event/FILE_PATH
+      value: pypykatz.exe
+    - case sensitive: false
+      file name: true
+      op: is
+      path: event/FILE_PATH
+      value: nanodump.exe
+    - case sensitive: false
+      file name: true
+      op: is
+      path: event/FILE_PATH
+      value: dumpert.exe
+respond:
+  - action: report
+    metadata:
+      level: critical
+      technique: T1003.001
+    name: Possible LSASS Credential Dump
+    priority: 5

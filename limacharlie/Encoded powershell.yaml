@@ -1,0 +1,53 @@
+detect:
+  event: NEW_PROCESS
+  op: and
+  rules:
+    - op: or
+      rules:
+        - case sensitive: false
+          file name: true
+          op: is
+          path: event/FILE_PATH
+          value: powershell.exe
+        - case sensitive: false
+          file name: true
+          op: is
+          path: event/FILE_PATH
+          value: pwsh.exe
+    - op: or
+      rules:
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: '-enc'
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: '-encodedcommand'
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: FromBase64String
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: Invoke-Expression
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: IEX(
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: DownloadString
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: Net.WebClient
+respond:
+  - action: report
+    name: Suspicious PowerShell Execution
+    priority: 4
+    metadata:
+      level: high
+      technique: T1059.001

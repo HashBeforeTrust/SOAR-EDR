@@ -1,0 +1,41 @@
+detect:
+  event: NEW_PROCESS
+  op: and
+  rules:
+    - op: or
+      rules:
+        - case sensitive: false
+          file name: true
+          op: is
+          path: event/FILE_PATH
+          value: powershell.exe
+        - case sensitive: false
+          file name: true
+          op: is
+          path: event/FILE_PATH
+          value: pwsh.exe
+    - op: or
+      rules:
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: DisableRealtimeMonitoring
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: Add-MpPreference
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: ExclusionPath
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: ExclusionProcess
+respond:
+  - action: report
+    name: Windows Defender Configuration Tampering
+    priority: 5
+    metadata:
+      level: critical
+      technique: T1562.001

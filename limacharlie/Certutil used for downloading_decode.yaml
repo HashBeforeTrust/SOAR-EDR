@@ -1,0 +1,30 @@
+detect:
+  event: NEW_PROCESS
+  op: and
+  rules:
+    - case sensitive: false
+      file name: true
+      op: is
+      path: event/FILE_PATH
+      value: certutil.exe
+    - op: or
+      rules:
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: '-urlcache'
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: '-decode'
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: '-decodehex'
+respond:
+  - action: report
+    metadata:
+      level: medium
+      technique: T1105
+    name: Suspicious Certutil Activity
+    priority: 3

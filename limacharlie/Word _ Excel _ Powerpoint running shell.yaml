@@ -1,0 +1,43 @@
+detect:
+  event: NEW_PROCESS
+  op: or
+  rules:
+    - case sensitive: false
+      op: ends with
+      path: event/FILE_PATH
+      value: winword.exe
+    - case sensitive: false
+      op: ends with
+      path: event/FILE_PATH
+      value: excel.exe
+    - case sensitive: false
+      op: ends with
+      path: event/FILE_PATH
+      value: powerpnt.exe
+  with child:
+    event: NEW_PROCESS
+    op: or
+    rules:
+      - case sensitive: false
+        op: ends with
+        path: event/FILE_PATH
+        value: powershell.exe
+      - case sensitive: false
+        op: ends with
+        path: event/FILE_PATH
+        value: cmd.exe
+      - case sensitive: false
+        op: ends with
+        path: event/FILE_PATH
+        value: wscript.exe
+      - case sensitive: false
+        op: ends with
+        path: event/FILE_PATH
+        value: cscript.exe
+respond:
+  - action: report
+    name: Office Application Spawned Shell
+    priority: 5
+    metadata:
+      level: critical
+      technique: T1204.002

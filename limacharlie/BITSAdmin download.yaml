@@ -1,0 +1,26 @@
+detect:
+  event: NEW_PROCESS
+  op: and
+  rules:
+    - case sensitive: false
+      file name: true
+      op: is
+      path: event/FILE_PATH
+      value: bitsadmin.exe
+    - op: or
+      rules:
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: /transfer
+        - case sensitive: false
+          op: contains
+          path: event/COMMAND_LINE
+          value: http
+respond:
+  - action: report
+    metadata:
+      level: medium
+      technique: T1197
+    name: Suspicious BITSAdmin Download
+    priority: 3
