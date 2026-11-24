@@ -43,6 +43,8 @@ Endpoint Isolation
 6. The decision is sent back to Tines.
 7. If isolation is approved, Tines calls the LimaCharlie API and isolates the endpoint.
 
+![Discord Detection Alert](docs/discord-alert.png)
+
 ## Tines Workflow
 
 ![Tines Workflow](docs/tines-workflow.png)
